@@ -6,7 +6,7 @@ Report VersionEye's information to Slack
 [![npm downloads](https://img.shields.io/npm/dm/versioneye-slack.svg)](https://www.npmjs.com/package/versioneye-slack)
 ![Node.js Version Support](https://img.shields.io/badge/Node.js%20support-v4–v7-brightgreen.svg)
 [![Build Status](https://travis-ci.org/miyajan/versioneye-slack.svg?branch=master)](https://travis-ci.org/miyajan/versioneye-slack)
-[![Dependency Status](https://www.versioneye.com/user/projects/586261ba44ae0d003954e07f/badge.svg)](https://www.versioneye.com/user/projects/586261ba44ae0d003954e07f)
+[![Dependency Status](https://www.versioneye.com/user/projects/586ba4ab3ab1480036885a4b/badge.svg)](https://www.versioneye.com/user/projects/586ba4ab3ab1480036885a4b)
 [![dependencies Status](https://david-dm.org/miyajan/versioneye-slack/status.svg)](https://david-dm.org/miyajan/versioneye-slack)
 [![Coverage Status](https://coveralls.io/repos/github/miyajan/versioneye-slack/badge.svg?branch=master)](https://coveralls.io/github/miyajan/versioneye-slack?branch=master)
 ![License](https://img.shields.io/npm/l/versioneye-slack.svg)
