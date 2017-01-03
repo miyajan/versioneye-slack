@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Send versioneye report to slack",
   "main": "index.js",
+  "bin": {
+    "versioneye-slack": "./bin/versioneye-slack.js"
+  },
   "engines": {
     "node": ">=4"
   },
