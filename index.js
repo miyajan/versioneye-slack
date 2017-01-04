@@ -20,6 +20,7 @@ class VersionEyeSlack {
         this._slack = slack({
             url: slackWebhookUrl,
             channel: opt_slackChannel,
+            username: 'VersionEye',
             icon_url: 'https://raw.githubusercontent.com/miyajan/versioneye-slack/master/image/versioneye.png'
         });
     }
