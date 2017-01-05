@@ -80,8 +80,7 @@ The organizations's API key in your organization's setting page (https://www.ver
 Post the latest notifications to slack.
 
 ```
-$ versioneye-slack notifications <options>
-# see options by -h
+$ versioneye-slack notifications
 ```
 
 The personal API key in your setting page (https://www.versioneye.com/settings/api) is required.
