@@ -73,7 +73,7 @@ $ versioneye-slack project <projectName>
 $ versioneye-slack project miyajan/versioneye-slack
 ```
 
-The organizations's API key in your organization's setting page (https://www.versioneye.com/organisations/<your org>/apikey) is required.
+The organizations's API key in your organization's setting page ( ```https://www.versioneye.com/organisations/<your org>/apikey``` ) is required.
 
 ##### notifications
 
