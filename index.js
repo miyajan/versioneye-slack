@@ -69,7 +69,7 @@ class VersionEyeSlack {
             const project = json.find(project => project['name'] === projectName);
 
             if (!project) {
-                return Promise.reject(new Error('no project: ' + projectName));
+                return Promise.reject(new Error('Not found: ' + projectName));
             }
 
             const projectId = project['id']['$oid'];
