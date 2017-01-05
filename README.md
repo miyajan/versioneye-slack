@@ -15,7 +15,13 @@ Report VersionEye's information to Slack
 
 You can post the following VersionEye's information to Slack.
 
+* your project summary
+
+<img alt="project" src="https://raw.githubusercontent.com/miyajan/versioneye-slack/master/image/project.png" width="600px" />
+
 * your latest notifications
+
+<img alt="project" src="https://raw.githubusercontent.com/miyajan/versioneye-slack/master/image/notifications.png" width="600px" />
 
 You can use this tool from CLI or programmatically.
 
@@ -56,12 +62,26 @@ You can path some options by environment variables. The command-line options are
 
 #### Sub-commands
 
+##### project
+
+Post a project summary to slack.
+
+```
+$ versioneye-slack project <projectName>
+
+# e.g.
+$ versioneye-slack project miyajan/versioneye-slack
+```
+
+The organizations's API key in your organization's setting page (https://www.versioneye.com/organisations/<your org>/apikey) is required.
+
 ##### notifications
 
 Post the latest notifications to slack.
 
 ```
-$ versioneye-slack notifications -h
+$ versioneye-slack notifications <options>
+# see options by -h
 ```
 
 The personal API key in your setting page (https://www.versioneye.com/settings/api) is required.
@@ -76,11 +96,12 @@ const VersionEyeSlack = require('versioneye-slack');
 const versioneyeApiKey = '<api key for versioneye>';
 const slackWebhookUrl = '<webhook url for slack>';
 const versioneyeSlack = new VersionEyeSlack(versioneyeApiKey, slackWebhookUrl);
-versioneyeSlack.postNotifications().then(response => {
+versioneyeSlack.postProjectSummary('project name').then(response => {
     console.log(response);
 });
 ```
 
+* ```postProjectSummary``` : equals to ```versioneye-slack project```
 * ```postNotifications``` : equals to ```versioneye-slack notifications```
 
 All methods will return Promise. The response string will be passed to ```then``` method when the request succeeds. The Error object with message string will be passed to ```catch``` method when the request fails.
