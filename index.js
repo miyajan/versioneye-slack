@@ -27,16 +27,15 @@ class VersionEyeSlack {
 
     /**
      * Post notifications of VersionEye to Slack
-     * @param {!Date} opt_lastNotifiedTime Post only notifications created after the specific time
      * @return {!Promise}
      */
-    postNotifications(opt_lastNotifiedTime) {
+    postNotifications() {
         return this._versioneye.me.listNotifications().then(json => {
             const attachments = [];
             json['notifications'].forEach(notification => {
                 const createdAt = Date.parse(notification['created_at']);
-                if (opt_lastNotifiedTime && opt_lastNotifiedTime > createdAt) {
-                    // already notified
+                if (notification['read']) {
+                    // already read
                     return;
                 }
                 const productKey = notification['product']['prod_key'];
