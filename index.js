@@ -26,14 +26,13 @@ class VersionEyeSlack {
     }
 
     /**
-     * Post notifications of VersionEye to Slack
+     * Post unread notifications of VersionEye to Slack
      * @return {!Promise}
      */
     postNotifications() {
         return this._versioneye.me.listNotifications().then(json => {
             const attachments = [];
             json['notifications'].forEach(notification => {
-                const createdAt = Date.parse(notification['created_at']);
                 if (notification['read']) {
                     // already read
                     return;
