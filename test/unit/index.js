@@ -3,14 +3,29 @@
 const proxyquire = require('proxyquire');
 const assert = require('assert');
 
+let actualMessage;
+let actualOpts;
+const mockSlack = function(opts) {
+    return function(message, opts, callback) {
+        actualMessage = message;
+        actualOpts = opts;
+        process.nextTick(function() {
+            callback(null, 'mocked');
+        });
+    };
+};
+
 describe('VersionEyeSlack class', function() {
     let sut;
     let versioneyeApiKey = 'versioneye-api-key-dummy';
     let slackWebhookUrl = 'https://hooks.slack.com/services/dummy/webhook/url';
 
-    describe('postNotifications', function() {
-        let actualOpts;
+    beforeEach(function() {
+        actualMessage = null;
+        actualOpts = null;
+    });
 
+    describe('postNotifications', function() {
         beforeEach(function() {
             const VersionEyeSlack = proxyquire('../../index', {
                 'versioneye-api-client': class {
@@ -43,23 +58,82 @@ describe('VersionEyeSlack class', function() {
                         }
                     }
                 },
-                'slack-incoming-webhook': function(opts) {
-                    return function(message, opts, callback) {
-                        actualOpts = opts;
-                        process.nextTick(function() {
-                            callback(null, 'mocked');
-                        });
-                    };
-                }
+                'slack-incoming-webhook': mockSlack
             });
             sut = new VersionEyeSlack(versioneyeApiKey, slackWebhookUrl);
         });
 
-        it.only('post unread notifications of VersionEye to Slack', function() {
+        it('post unread notifications of VersionEye to Slack', function() {
             return sut.postNotifications().then(response => {
-                assert(Array.isArray(actualOpts['attachments']));
-                assert(actualOpts['attachments'].length === 1);
-                assert(actualOpts['attachments'][0]['text'] === '<https://www.versioneye.com/unread_language/unread_prod_key|unread_name> (1.0.0)');
+                assert(actualMessage === 'There are notifications for new releases!');
+                assert.deepEqual(actualOpts, {
+                    'attachments': [{
+                        'text': '<https://www.versioneye.com/unread_language/unread_prod_key|unread_name> (1.0.0)'
+                    }]
+                });
+                assert(response === 'mocked');
+            });
+        });
+    });
+
+    describe('postProjectSummary', function() {
+        beforeEach(function() {
+            const VersionEyeSlack = proxyquire('../../index', {
+                'versioneye-api-client': class {
+                    constructor(apiKey, opt_baseUri) {
+                        this.projects = {
+                            list: function() {
+                                return Promise.resolve([
+                                    {
+                                        "id": {
+                                            "$oid": "project1-id"
+                                        },
+                                        "name": "project1"
+                                    },
+                                    {
+                                        "id": {
+                                            "$oid": "project2-id"
+                                        },
+                                        "name": "project2"
+                                    }
+                                ]);
+                            },
+                            show: function(projectId) {
+                                return Promise.resolve({
+                                    "id": projectId,
+                                    "out_number_sum": 0,
+                                    "licenses_red_sum": 0,
+                                    "licenses_unknown_sum": 0,
+                                    "sv_count_sum": 0
+                                });
+                            }
+                        }
+                    }
+                },
+                'slack-incoming-webhook': mockSlack
+            });
+            sut = new VersionEyeSlack(versioneyeApiKey, slackWebhookUrl);
+        });
+
+        it('Post a summary for the specific project', function() {
+            return sut.postProjectSummary('project1').then(response => {
+                assert(actualMessage === 'Project summary for <https://www.versioneye.com/user/projects/project1-id|project1>');
+                assert.deepEqual(actualOpts, {
+                    'attachments': [
+                        {
+                            color: 'good',
+                            text: 'Outdated: 0'
+                        },
+                        {
+                            color: 'good',
+                            text: 'Licenses: 0 : 0'
+                        },
+                        {
+                            color: 'good',
+                            text: 'Security: 0'
+                        }
+                    ]
+                });
                 assert(response === 'mocked');
             });
         });
