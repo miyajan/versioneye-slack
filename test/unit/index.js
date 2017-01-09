@@ -26,33 +26,14 @@ describe('VersionEyeSlack class', function() {
     });
 
     describe('postNotifications', function() {
-        beforeEach(function() {
+        const setupSut = function(notifications) {
             const VersionEyeSlack = proxyquire('../../index', {
                 'versioneye-api-client': class {
                     constructor(apiKey, opt_baseUri) {
                         this.me = {
                             listNotifications: function() {
                                 return Promise.resolve({
-                                    "notifications": [
-                                        {
-                                            "read": true,
-                                            "product": {
-                                                "prod_key": "read_prod_key",
-                                                "language": "read_language",
-                                                "name": "read_name"
-                                            },
-                                            "version": "2.0.0"
-                                        },
-                                        {
-                                            "read": false,
-                                            "product": {
-                                                "prod_key": "unread_prod_key",
-                                                "language": "unread_language",
-                                                "name": "unread_name"
-                                            },
-                                            "version": "1.0.0"
-                                        }
-                                    ]
+                                    "notifications": notifications
                                 });
                             }
                         }
@@ -61,9 +42,30 @@ describe('VersionEyeSlack class', function() {
                 'slack-incoming-webhook': mockSlack
             });
             sut = new VersionEyeSlack(versioneyeApiKey, slackWebhookUrl);
-        });
+        };
 
         it('post unread notifications of VersionEye to Slack', function() {
+            setupSut([
+                {
+                    "read": true,
+                    "product": {
+                        "prod_key": "read_prod_key",
+                        "language": "read_language",
+                        "name": "read_name"
+                    },
+                    "version": "2.0.0"
+                },
+                {
+                    "read": false,
+                    "product": {
+                        "prod_key": "unread_prod_key",
+                        "language": "unread_language",
+                        "name": "unread_name"
+                    },
+                    "version": "1.0.0"
+                }
+            ]);
+
             return sut.postNotifications().then(response => {
                 assert(actualMessage === 'There are notifications for new releases!');
                 assert.deepEqual(actualOpts, {
@@ -72,6 +74,16 @@ describe('VersionEyeSlack class', function() {
                     }]
                 });
                 assert(response === 'mocked');
+            });
+        });
+
+        it('not post to slack when no unread notifications', function() {
+            setupSut([]);
+
+            return sut.postNotifications().then(response => {
+                assert(actualMessage === null);
+                assert(actualOpts === null);
+                assert(response === 'no notifications');
             });
         });
     });
