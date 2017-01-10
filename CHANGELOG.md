@@ -1,3 +1,12 @@
+### 0.2.1 (2017-01-10)
+
+
+#### Bug Fixes
+
+* **CLI:**
+  * fix to pass command-line options correctly ([0d46adfe](https://github.com/miyajan/versioneye-slack/commit/0d46adfe0414594cf3c39461541eaf06fd552419))
+
+
 ## 0.2.0 (2017-01-05)
 
 
@@ -26,6 +35,6 @@
   * include bin to package ([4d33c012](https://github.com/miyajan/versioneye-slack/commit/4d33c0120d63f431a74430b79b18634c8a227b40))
 
 
-### 0.1.0 (2017-01-03)
+## 0.1.0 (2017-01-03)
 
 * First Release
