@@ -149,5 +149,13 @@ describe('VersionEyeSlack class', function() {
                 assert(response === 'mocked');
             });
         });
+
+        it('catch Error when the specific project does not exist', function() {
+            return sut.postProjectSummary('unknown').then(response => {
+                assert(false);
+            }).catch(err => {
+                assert(err.message === 'Not found: unknown');
+            });
+        });
     });
 });
