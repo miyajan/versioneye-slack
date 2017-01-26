@@ -60,10 +60,11 @@ class VersionEyeSlack {
     /**
      * Post a summary for the specific project
      * @param {string} projectName Project name
+     * @param {string?} opt_orgName Organization Name the project is assigned to. This is required when you execute with a personal API key.
      * @return {!Promise}
      */
-    postProjectSummary(projectName) {
-        return this._versioneye.projects.list().then(json => {
+    postProjectSummary(projectName, opt_orgName) {
+        return this._versioneye.projects.list(opt_orgName).then(json => {
             const project = json.find(project => project['name'] === projectName);
 
             if (!project) {
