@@ -1,3 +1,12 @@
+## 0.3.0 (2017-01-27)
+
+
+#### Features
+
+* **project:**
+  * add --org-name option to project sub-command for personal API key use ([6b531ff7](https://github.com/miyajan/versioneye-slack/commit/6b531ff7a4d26a1aa81233b514cff54fcddcec2f))
+
+
 ### 0.2.1 (2017-01-10)
 
 
