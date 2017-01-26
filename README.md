@@ -75,6 +75,10 @@ $ versioneye-slack project miyajan/versioneye-slack
 
 The organizations's API key in your organization's setting page ( ```https://www.versioneye.com/organisations/<your org>/apikey``` ) is required.
 
+###### ```-o``` or ```--org-name```
+
+Specify organization name when you execute with a personal API key.
+
 ##### notifications
 
 Post the latest notifications to slack.
