@@ -2,5 +2,6 @@
 
 'use strict';
 
-const cli = require('../lib/cli');
-cli(process.argv, process.env, console, process.exit);
+const CommandLine = require('../lib/cli');
+const cli = new CommandLine(process.argv, process.env, console, process.exit);
+cli.execute();
