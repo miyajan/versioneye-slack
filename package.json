@@ -30,7 +30,7 @@
   },
   "homepage": "https://github.com/miyajan/versioneye-slack",
   "dependencies": {
-    "commander": "^2.9.0",
+    "commander": "^5.1.0",
     "slack-incoming-webhook": "^1.1.0",
     "versioneye-api-client": "^0.1.4"
   },
